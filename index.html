@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepLora™ - 操作系统与人工智能开发</title>
+    <link rel="icon" href="icon.ico" type="image/x-icon">
+    <style>
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --secondary: #4a148c;
+            --background: #121212;
+            --surface: #1e1e1e;
+            --text: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 头部样式 */
+        header {
+            background-color: var(--surface);
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('icon.ico');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text);
+        }
+        
+        .logo-text span {
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav a:hover {
+            color: var(--primary);
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        /* 英雄区域样式 */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--secondary), var(--background));
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), #b388ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            color: var(--text-secondary);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        /* 内容区域样式 */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.2rem;
+        }
+        
+        .section-title span {
+            color: var(--primary);
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .card p {
+            color: var(--text-secondary);
+        }
+        
+        /* 项目展示样式 */
+        .projects {
+            background-color: var(--surface);
+        }
+        
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .project-item {
+            background-color: var(--background);
+            border-radius: 10px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .project-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .project-content h3 {
+            margin-bottom: 10px;
+        }
+        
+        .project-content p {
+            color: var(--text-secondary);
+        }
+        
+        /* 联系区域样式 */
+        .contact-info {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .contact-info p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .email {
+            display: inline-block;
+            background-color: var(--surface);
+            padding: 15px 25px;
+            border-radius: 30px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .email:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: var(--surface);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .project-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <div class="logo-text">Deep<span>Lora</span>™</div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#about">关于我们</a></li>
+                        <li><a href="#projects">项目</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <h1>创新与进步的技术团队</h1>
+            <p>专注于操作系统与人工智能开发，致力于创造改变世界的技术解决方案</p>
+            <a href="#projects" class="cta-button">查看我们的项目</a>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section" id="about">
+        <div class="container">
+            <h2 class="section-title">关于<span>DeepLora</span></h2>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-icon">🏢</div>
+                    <h3>团队信息</h3>
+                    <p>我们是一支来自甘肃省定西市陇西县的技术团队，专注于操作系统与人工智能开发。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>团队目标</h3>
+                    <p>我们的目标是创新与进步，致力于开发前沿技术解决方案，推动技术发展。</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🏫</div>
+                    <h3>团队背景</h3>
+                    <p>团队成员来自甘肃省定西市陇西县巩昌中学，拥有扎实的技术基础和创新能力。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section class="section projects" id="projects">
+        <div class="container">
+            <h2 class="section-title">我们的<span>项目</span></h2>
+            <div class="project-list">
+                <div class="project-item">
+                    <div class="project-icon">C++</div>
+                    <div class="project-content">
+                        <h3>C++实现的文本工具箱</h3>
+                        <p>使用C++开发的高效文本处理工具集，提供丰富的文本操作功能。</p>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-icon">Py</div>
+                    <div class="project-content">
+                        <h3>Python实现的轻量级人工智能</h3>
+                        <p>基于Python开发的轻量级AI框架，适用于多种人工智能应用场景。</p>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-icon">OS</div>
+                    <div class="project-content">
+                        <h3>使用C语言写的简易操作系统</h3>
+                        <p>采用C语言开发的轻量级操作系统，展示操作系统核心原理与实现。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="section" id="contact">
+        <div class="container">
+            <h2 class="section-title">联系<span>我们</span></h2>
+            <div class="contact-info">
+                <p>如果您对我们的项目感兴趣或希望与我们合作，请通过以下方式联系我们：</p>
+                <a href="mailto:LanJusuntar@markline.dpdns.org" class="email">LanJusuntar@markline.dpdns.org</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">DeepLora™</div>
+                <p>专注于操作系统与人工智能开发</p>
+                <div class="footer-links">
+                    <a href="#about">关于我们</a>
+                    <a href="#projects">项目</a>
+                    <a href="#contact">联系我们</a>
+                </div>
+                <p>&copy; 2023 DeepLora团队. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 添加滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+            } else {
+                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.3)';
+            }
+        });
+        
+        /* 已移除 icon.ico 加载失败时显示 "DL" 的回退逻辑，避免显示文字或背景色 */
+    </script>
+</body>
+</html>
